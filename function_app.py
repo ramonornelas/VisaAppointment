@@ -28,7 +28,7 @@ def endpoint(req:func.HttpRequest) -> func.HttpResponse:
     city_name = city_names.get(city_id, "Invalid case")
     check_dates_result = check_dates(city_id, city_name, target_date, cookie)
     response = {
-        f"{city_name}": f"{check_dates_result}"
+        f"result:": f"{city_name + ':' + check_dates_result}"
     }
     
     headers = {
