@@ -5,7 +5,7 @@ from email.mime.multipart import MIMEMultipart
 import datetime
 # import requests_mock
 
-def send_email(subject, message):
+def send_email(subject, message, user):
 
 	# Set up the SMTP server
 	smtp_server = "smtp.gmail.com"
@@ -21,7 +21,7 @@ def send_email(subject, message):
 	msg = MIMEMultipart()
 	msg["From"] = sender
 	msg["To"] = receiver
-	msg["Subject"] = subject
+	msg["Subject"] = subject + " (" + user + ")"
 	msg.attach(MIMEText(message, "plain"))
 
 	# Connect to the SMTP server and send the email
@@ -56,7 +56,7 @@ def get_cookie_from_file():
 
 	return cookie
 
-def check_dates(city_code, city_name, target_date, cookie):
+def check_dates(city_code, city_name, target_date, cookie, user):
 
 	# Get data from the API
 	url = "https://ais.usvisa-info.com/es-mx/niv/schedule/52250562/appointment/days/" + str(city_code) + ".json?appointments[expedite]=false"
@@ -93,7 +93,7 @@ def check_dates(city_code, city_name, target_date, cookie):
 		except:
 			subject = "Visa - Formato de respuesta incorrecto"
 			message = "https://ais.usvisa-info.com/es-mx/niv/schedule/52250562/appointment"
-			send_email(subject, message)
+			send_email(subject, message, user)
 			return "Error"
 
 		# Check if there is an available date for appointment
@@ -102,7 +102,7 @@ def check_dates(city_code, city_name, target_date, cookie):
 			if available_date < target_date:
 				subject = "Visa - Fecha disponible!!! (" + city_name + " / " + available_date + ")"
 				message = "https://ais.usvisa-info.com/es-mx/niv/schedule/52250562/appointment"
-				send_email(subject, message)
+				send_email(subject, message, user)
 				return 'AVAILABLE DATE!!! ' + str(available_date)
 			else:
 				return 'First available date: ' + str(available_date)
@@ -116,5 +116,5 @@ def check_dates(city_code, city_name, target_date, cookie):
 		else:
 			subject = "Visa - Se generó un error"
 			message = "https://ais.usvisa-info.com/es-mx/niv/schedule/52250562/appointment"
-		send_email(subject, message)
+		send_email(subject, message, user)
 		return "An error occurred. Status code: " + str(response.status_code)
