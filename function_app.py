@@ -10,7 +10,7 @@ def endpoint(req:func.HttpRequest) -> func.HttpResponse:
 
     city_id = int(req.params.get('cityId'))
     cookie = get_cookie_from_file()
-    target_date = '2024-11-27'
+    target_date = '2024-10-29'
 
     city_names = {
         65: "Ciudad Juarez",

@@ -1,21 +1,9 @@
 import requests
-# import sys
-# import time
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import datetime
 # import requests_mock
-
-
-def print_timestamp(text):
-	print(current_timestamp() + ' // ' + text)
-
-def print_indent(text):
-	print('	' + text)
-
-def current_timestamp():
-	return str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 def send_email(subject, message):
 
@@ -42,9 +30,8 @@ def send_email(subject, message):
 			server.starttls()
 			server.login(smtp_username, smtp_password)
 			server.send_message(msg)
-		print_indent("Email sent successfully!")
 	except Exception as e:
-		print_indent("An error occurred: " + str(e))
+		return "An error occurred: " + str(e)
 
 def get_cookie_from_file():
 	# Get the cookie value from a text file
@@ -104,7 +91,6 @@ def check_dates(city_code, city_name, target_date, cookie):
 		try:
 			data = response.json()
 		except:
-			print_indent('Incorrect response format')
 			subject = "Visa - Formato de respuesta incorrecto"
 			message = "https://ais.usvisa-info.com/es-mx/niv/schedule/52250562/appointment"
 			send_email(subject, message)
@@ -119,7 +105,7 @@ def check_dates(city_code, city_name, target_date, cookie):
 				send_email(subject, message)
 				return 'AVAILABLE DATE!!! ' + str(available_date)
 			else:
-				return 'No dates before target date (' + str(target_date) + '). Available dates start on: ' + str(available_date)
+				return 'First available date: ' + str(available_date)
 		else:
 			return 'No dates available.'
 
