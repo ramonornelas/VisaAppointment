@@ -10,6 +10,8 @@ def endpoint(req:func.HttpRequest) -> func.HttpResponse:
 
     city_id = int(req.params.get('cityId'))
     user = req.params.get('user')
+    mocked_data = req.params.get('mockedData')
+    
     cookie = get_cookie_from_file()
     target_date = '2024-10-29'
 
@@ -27,7 +29,7 @@ def endpoint(req:func.HttpRequest) -> func.HttpResponse:
     }
 
     city_name = city_names.get(city_id, "Invalid case")
-    check_dates_result = check_dates(city_id, city_name, target_date, cookie, user)
+    check_dates_result = check_dates(city_id, city_name, target_date, cookie, user, mocked_data)
     response = {
         f"result": f"{city_name + ': ' + check_dates_result}"
     }

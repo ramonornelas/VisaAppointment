@@ -3,7 +3,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import datetime
-# import requests_mock
+from mocked_data import get_mocked_data
 
 def send_email(subject, message, user):
 
@@ -56,19 +56,22 @@ def get_cookie_from_file():
 
 	return cookie
 
-def check_dates(city_code, city_name, target_date, cookie, user):
+def check_dates(city_code, city_name, target_date, cookie, user, mocked_data):
 
-	# Get data from the API
-	url = "https://ais.usvisa-info.com/es-mx/niv/schedule/52250562/appointment/days/" + str(city_code) + ".json?appointments[expedite]=false"
+	if mocked_data:
+		response = get_mocked_data(2)
+	else:
+		# Get data from the API
+		url = "https://ais.usvisa-info.com/es-mx/niv/schedule/52250562/appointment/days/" + str(city_code) + ".json?appointments[expedite]=false"
 
-	headers = {
-		"Cookie": cookie,
-		"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
-		"X-Requested-With": "XMLHttpRequest"
-	}
+		headers = {
+			"Cookie": cookie,
+			"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+			"X-Requested-With": "XMLHttpRequest"
+		}
 
-	# Send a GET request to the endpoint
-	response = requests.get(url, headers=headers)
+		# Send a GET request to the endpoint
+		response = requests.get(url, headers=headers)
 
 	"""
 	# Create a requests_mock instance
