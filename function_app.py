@@ -10,8 +10,8 @@ def endpoint(req:func.HttpRequest) -> func.HttpResponse:
 
     city_id = int(req.params.get('cityId'))
     user = req.params.get('user')
-    mocked_data = req.params.get('mockedData')
-    
+    mocked_data = bool(req.params.get('mockedData'))
+
     cookie = get_cookie_from_file()
     target_date = '2024-10-29'
 
