@@ -60,7 +60,7 @@ def get_cookie_from_file():
 
 	return cookie
 
-def check_dates(city_code, city_name, target_date, cookie, user):
+def check_dates(city_code, city_name, target_date, cookie, platform_name):
 
 	# Get data from the API
 	url = "https://ais.usvisa-info.com/es-mx/niv/schedule/52250562/appointment/days/" + str(city_code) + ".json?appointments[expedite]=false"
