@@ -3,25 +3,9 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import datetime
-from datetime import datetime, timedelta
-import requests_mock
-import json
-
-def mock_api_call(mocked_data_count, start_date_string):
-	with requests_mock.Mocker() as mocker:
-		# Convert the start_date_string to a datetime object
-		start_date = datetime.strptime(start_date_string, "%Y-%m-%d")
-
-		# Generate a list of dictionaries, each containing a date and a boolean indicating if it's a business day
-		mocked_data = [{"date": (start_date + timedelta(days=i)).strftime("%Y-%m-%d"), "business_day": i % 7 < 5} for i in range(mocked_data_count)]
-		
-		# Convert mocked_data to a JSON string and print it
-		print(json.dumps(mocked_data))
-		
-		# Define a mock response for a specific API endpoint
-		mocker.get('https://api.example.com/endpoint', json=mocked_data)
-		response = requests.get('https://api.example.com/endpoint')
-		return response
+# from datetime import datetime, timedelta
+# import requests_mock
+# import json
 
 def send_email(subject, message, platform_name):
 
@@ -76,22 +60,19 @@ def get_cookie_from_file():
 
 	return cookie
 
-def check_dates(city_code, city_name, target_date, cookie, platform_name, mocked_data_count, start_date):
+def check_dates(city_code, city_name, target_date, cookie, user):
 
-	if mocked_data_count >= 0:
-		response = mock_api_call(mocked_data_count, start_date)
-	else:
-		# Get data from the API
-		url = "https://ais.usvisa-info.com/es-mx/niv/schedule/52250562/appointment/days/" + str(city_code) + ".json?appointments[expedite]=false"
+	# Get data from the API
+	url = "https://ais.usvisa-info.com/es-mx/niv/schedule/52250562/appointment/days/" + str(city_code) + ".json?appointments[expedite]=false"
 
-		headers = {
-			"Cookie": cookie,
-			"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
-			"X-Requested-With": "XMLHttpRequest"
-		}
+	headers = {
+		"Cookie": cookie,
+		"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
+		"X-Requested-With": "XMLHttpRequest"
+	}
 
-		# Send a GET request to the endpoint
-		response = requests.get(url, headers=headers)
+	# Send a GET request to the endpoint
+	response = requests.get(url, headers=headers)
 
 	# Check the response status code
 	if response.status_code == 200:
