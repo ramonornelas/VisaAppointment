@@ -15,11 +15,11 @@ def get_parameter(req, param_name, expected_type, default_value):
 @app.route(route="endpoint")
 def endpoint(req:func.HttpRequest) -> func.HttpResponse:
 
-    # city_id = int(req.params.get('cityId'))
-    city_id = get_parameter(req, 'cityId', int, None)
-    computer_name = get_parameter(req, 'computerName', str, None)
-    mocked_data_count = get_parameter(req, 'mockedDataCount', int, None)
-    start_date = get_parameter(req, 'startDate', str, None)
+    city_id = int(req.params.get('cityId'))
+    # city_id = get_parameter(req, 'cityId', int, None)
+    # computer_name = get_parameter(req, 'computerName', str, None)
+    # mocked_data_count = get_parameter(req, 'mockedDataCount', int, None)
+    # start_date = get_parameter(req, 'startDate', str, None)
 
     cookie = get_cookie_from_file()
     target_date = '2024-10-29'
@@ -38,7 +38,8 @@ def endpoint(req:func.HttpRequest) -> func.HttpResponse:
     }
 
     city_name = city_names.get(city_id, "Invalid case")
-    check_dates_result = check_dates(city_id, city_name, target_date, cookie, computer_name, mocked_data_count, start_date)
+    # check_dates_result = check_dates(city_id, city_name, target_date, cookie, computer_name, mocked_data_count, start_date)
+    check_dates_result = check_dates(city_id, city_name, target_date, cookie, '', -1, '2024-10-29')
     
     response = {
         f"result": f"{city_name + ': ' + check_dates_result}"
