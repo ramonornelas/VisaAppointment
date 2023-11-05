@@ -5,11 +5,23 @@ from modules import get_cookie_from_file
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
+def get_parameter(req, param_name, expected_type, default_value):
+  param_value = req.params.get(param_name, default=default_value)
+  try:
+    return expected_type(param_value)
+  except ValueError:
+    return (f"Invalid value for {param_name}")
+
 @app.route(route="endpoint")
 def endpoint(req:func.HttpRequest) -> func.HttpResponse:
 
-    city_id = int(req.params.get('cityId'))
-    user = req.params.get('user')
+    # city_id = int(req.params.get('cityId'))
+    city_id = get_parameter(req, 'cityId', int, None)
+    user = get_parameter(req, 'user', str, None)
+    # computer_name = get_parameter(req, 'computerName', str, None)
+    # mocked_data_count = get_parameter(req, 'mockedDataCount', int, None)
+    # start_date = get_parameter(req, 'startDate', str, None)
+
     cookie = get_cookie_from_file()
     target_date = '2024-10-29'
 
