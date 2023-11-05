@@ -3,7 +3,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import datetime
-# from mocked_data import get_mocked_data
+# import requests_mock
 
 def send_email(subject, message, user):
 
@@ -56,12 +56,7 @@ def get_cookie_from_file():
 
 	return cookie
 
-# def check_dates(city_code, city_name, target_date, cookie, user, mocked_data):
 def check_dates(city_code, city_name, target_date, cookie, user):
-
-	# if mocked_data:
-	#	response = get_mocked_data(2)
-	# else:
 
 	# Get data from the API
 	url = "https://ais.usvisa-info.com/es-mx/niv/schedule/52250562/appointment/days/" + str(city_code) + ".json?appointments[expedite]=false"
