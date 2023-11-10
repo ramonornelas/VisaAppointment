@@ -2,8 +2,6 @@ import azure.functions as func
 import json
 from modules import check_dates
 from modules import get_cookie_from_file
-from modules import write_cookie_to_file
-from modules_signin import process_cookies_and_token
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
@@ -16,7 +14,7 @@ def endpoint(req:func.HttpRequest) -> func.HttpResponse:
     start_date = req.params.get('startDate')
 
     cookie = get_cookie_from_file()
-    target_date = '2024-07-09'
+    target_date = '2024-10-29'
 
     city_names = {
         65: "Ciudad Juarez",
@@ -33,14 +31,6 @@ def endpoint(req:func.HttpRequest) -> func.HttpResponse:
 
     city_name = city_names.get(city_id, "Invalid case")
     check_dates_result = check_dates(city_id, city_name, target_date, cookie, platform_name, mocked_data_count, start_date)
-    
-    """
-    if check_dates_result == "An error occurred. Status code: 401":
-        cookie = process_cookies_and_token()
-        # write_cookie_to_file(cookie)
-        check_dates_result = check_dates(city_id, city_name, target_date, cookie, platform_name, mocked_data_count, start_date)
-    """
-    
     response = {
         f"result": f"{city_name + ': ' + check_dates_result}"
     }
