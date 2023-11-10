@@ -60,6 +60,19 @@ def get_cookie_from_file():
 
 	return cookie
 
+def write_cookie_to_file(cookie_value):
+	# Define the file path
+	file_path = "visa_data.txt"
+
+	print(file_path)
+	print(cookie_value)
+
+	# Open the text file in write mode
+	with open(file_path, "w") as file:
+		# Write the cookie value to the file
+		file.write("Cookie:\n")
+		file.write(cookie_value)
+
 def check_dates(city_code, city_name, target_date, cookie, platform_name, mocked_data_count, start_date):
 
 	# Get data from the API
