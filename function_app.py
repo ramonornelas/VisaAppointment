@@ -34,10 +34,12 @@ def endpoint(req:func.HttpRequest) -> func.HttpResponse:
     city_name = city_names.get(city_id, "Invalid case")
     check_dates_result = check_dates(city_id, city_name, target_date, cookie, platform_name, mocked_data_count, start_date)
     
+    """
     if check_dates_result == "An error occurred. Status code: 401":
         cookie = process_cookies_and_token()
         # write_cookie_to_file(cookie)
         check_dates_result = check_dates(city_id, city_name, target_date, cookie, platform_name, mocked_data_count, start_date)
+    """
     
     response = {
         f"result": f"{city_name + ': ' + check_dates_result}"
