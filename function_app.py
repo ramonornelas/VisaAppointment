@@ -2,6 +2,7 @@ import azure.functions as func
 import json
 from modules import check_dates
 from modules import get_cookie_from_file
+from modules import write_cookie_to_file
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
