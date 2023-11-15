@@ -17,7 +17,7 @@ def endpoint(req:func.HttpRequest) -> func.HttpResponse:
 
     # cookie = get_cookie_from_file()
     cookie = process_cookies_and_token()
-    target_date = '2024-10-29'
+    target_date = '2024-07-09'
 
     city_names = {
         65: "Ciudad Juarez",
